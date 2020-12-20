@@ -77,7 +77,6 @@ module.exports = () => {
             if (i < precos.length) {
                 db.query("INSERT INTO combustivel (combustivel_tipo, combustivel_preco_medio, combustivel_preco_barato, combustivel_data) VALUES (?, ?, ?, ?)", [precos[i].tipo, precos[i].preco.substring(1, precos[i].preco.length), precosBaratos[i].preco.substring(1, precosBaratos[i].preco.length), moment().format("YYYY-MM-DD")], function (err, result) {
                     if (err) throw err;
-                    console.log(i);
                     i++;
                     inserirPreco();
                 });
