@@ -2,7 +2,7 @@ const express = require("express");
 const moment = require('moment');
 const router = express.Router();
 
-const db = require("./db.js");
+const db = require("../db.js");
 const combustiveis = [
     "gasolina95simples",
     "gasolina95plus",
