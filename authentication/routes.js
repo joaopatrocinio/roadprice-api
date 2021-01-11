@@ -1,5 +1,4 @@
 const express = require("express");
-const moment = require('moment');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -9,12 +8,13 @@ const db = require("../db.js");
 router.post('/login', (req, res) => {
     if (req.body.user_email && req.body.user_password) {
         db.query('SELECT * from user WHERE user_email = ?', [req.body.user_email], (err, result) => {
+            if (err) return res.status(500).json({ message: 'Ocorreu um erro a identificar o utilizador.' });
             if (!result[0]) {
-                return res.status(401).json({ message: 'Autenteicação falhada, credenciais incorretas.' });
+                return res.status(401).json({ message: 'Autenticação falhada, credenciais incorretas.' });
             }
             var passwordIsValid = bcrypt.compareSync(req.body.user_password, result[0].user_password);
             if (!passwordIsValid) {
-                return res.status(401).json({ response: 'Autenteicação falhada, credenciais incorretas.' });
+                return res.status(401).json({ response: 'Autenticação falhada, credenciais incorretas.' });
             }
             var token = jwt.sign({
                 id: result[0].user_id,
