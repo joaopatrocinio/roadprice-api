@@ -69,7 +69,16 @@ router.post('/register', (req, res) => {
             }
             return res.status(500).send({ message: 'Ocorreu um erro no registo.' });
         }
-        return res.status(200).send({ response: 'Utilizador registado com sucesso.' });
+        var token = jwt.sign({
+            id: result.insertId,
+        }, process.env.JWT_SECRET, {
+            expiresIn: 6064800 // expires in 1 week
+        });
+
+        return res.status(200).json({
+            message: 'Utilizador criado com sucesso.',
+            token: token
+        });
     });
 });
 
