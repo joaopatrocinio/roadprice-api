@@ -41,7 +41,7 @@ router.get('/me', (req, res) => {
             if (!result[0]) {
                 return res.status(404).json({ message: 'Token inválido.' });
             }
-            return res.status(200).json({ user: result[0] });
+            return res.status(200).json(result[0]);
         });
     })
 })
