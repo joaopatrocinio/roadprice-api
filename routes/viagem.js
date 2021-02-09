@@ -14,4 +14,45 @@ router.get("/", (req, res) => {
     })
 })
 
+router.get("/:id", (req, res) => {
+    db.query("SELECT viagem.*, combustivel.combustivel_preco_medio, combustivel.combustivel_preco_barato, combustivel.combustivel_tipo FROM viagem LEFT JOIN combustivel ON viagem_combustivel_id = combustivel_id WHERE viagem_user_id = ? AND viagem_id = ?", [req.user.user_id, req.params.id], (err, result) => {
+        if (err) return res.status(500).json({ message: 'Ocorreu um erro a identificar o utilizador.' });
+        if (result.length > 0) {
+            res.json(result.map(viagem => {
+                viagem.viagem_data = moment(viagem.viagem_data, "YYYY-MM-DD HH:mm:ss").fromNow()
+                return viagem
+            }))
+        } else {
+            res.status(404).json({ message: "Viagem não disponível." })
+        }
+    })
+})
+
+router.post("/", (req, res) => {
+    if (
+        !req.body.viagem_titulo ||
+        !req.body.viagem_combustivel_id ||
+        !req.body.viagem_distancia ||
+        !req.body.viagem_pessoas ||
+        !req.body.viagem_preco_final
+    ) {
+        return res.status(401).json({ message: "Campos em falta." });
+    } else {
+        db.query("INSERT INTO viagem (viagem_user_id, viagem_combustivel_id, viagem_titulo, viagem_data, viagem_distancia, viagem_pessoas, viagem_preco_final) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+            req.user.user_id,
+            req.body.viagem_combustivel_id,
+            req.body.viagem_titulo,
+            moment().format("YYYY-MM-DD HH:mm:ss"),
+            req.body.viagem_distancia,
+            req.body.viagem_pessoas,
+            req.body.viagem_preco_final
+        ], (err, result) => {
+            if (err) return res.status(500).json({ message: "Ocorreu um erro na base de dados.", err: err });
+            return res.json({
+                message: "Viagem guardada com sucesso."
+            })
+        })
+    }
+})
+
 module.exports = router;
