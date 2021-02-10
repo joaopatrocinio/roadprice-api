@@ -37,11 +37,12 @@ router.post("/", (req, res) => {
         !req.body.viagem_preco_final ||
         !req.body.viagem_preco_pessoa ||
         !req.body.viagem_preco_final_diferenca ||
-        !req.body.viagem_preco_pessoa_diferenca
+        !req.body.viagem_preco_pessoa_diferenca ||
+        !req.body.viagem_consumo
     ) {
         return res.status(401).json({ message: "Campos em falta." });
     } else {
-        db.query("INSERT INTO viagem (viagem_user_id, viagem_combustivel_id, viagem_titulo, viagem_data, viagem_distancia, viagem_pessoas, viagem_preco_final, viagem_preco_pessoa, viagem_preco_final_diferenca, viagem_preco_pessoa_diferenca) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        db.query("INSERT INTO viagem (viagem_user_id, viagem_combustivel_id, viagem_titulo, viagem_data, viagem_distancia, viagem_pessoas, viagem_preco_final, viagem_preco_pessoa, viagem_preco_final_diferenca, viagem_preco_pessoa_diferenca, viagem_comsumo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
             req.user.user_id,
             req.body.viagem_combustivel_id,
             req.body.viagem_titulo,
@@ -51,7 +52,8 @@ router.post("/", (req, res) => {
             req.body.viagem_preco_final,
             req.body.viagem_preco_pessoa,
             req.body.viagem_preco_final_diferenca,
-            req.body.viagem_preco_pessoa_diferenca
+            req.body.viagem_preco_pessoa_diferenca,
+            req.body.viagem_consumo
         ], (err, result) => {
             if (err) return res.status(500).json({ message: "Ocorreu um erro na base de dados.", err: err });
             return res.json({
