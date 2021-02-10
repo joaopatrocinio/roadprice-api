@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
     ) {
         return res.status(401).json({ message: "Campos em falta." });
     } else {
-        db.query("INSERT INTO viagem (viagem_user_id, viagem_combustivel_id, viagem_titulo, viagem_data, viagem_distancia, viagem_pessoas, viagem_preco_final, viagem_preco_pessoa, viagem_preco_final_diferenca, viagem_preco_pessoa_diferenca, viagem_comsumo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+        db.query("INSERT INTO viagem (viagem_user_id, viagem_combustivel_id, viagem_titulo, viagem_data, viagem_distancia, viagem_pessoas, viagem_preco_final, viagem_preco_pessoa, viagem_preco_final_diferenca, viagem_preco_pessoa_diferenca, viagem_consumo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
             req.user.user_id,
             req.body.viagem_combustivel_id,
             req.body.viagem_titulo,
