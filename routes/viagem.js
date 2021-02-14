@@ -1,5 +1,6 @@
 const express = require("express");
 const moment = require("moment")
+moment.locale("pt")
 const router = express.Router();
 
 const db = require("../db.js");
