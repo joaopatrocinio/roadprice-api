@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
 const cron = require('node-cron');
+const bcrypt = require("bcryptjs");
 const cors = require("cors");
 
 const app = express()
