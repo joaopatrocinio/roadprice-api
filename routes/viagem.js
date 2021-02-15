@@ -58,7 +58,8 @@ router.post("/", (req, res) => {
         ], (err, result) => {
             if (err) return res.status(500).json({ message: "Ocorreu um erro na base de dados.", err: err });
             return res.json({
-                message: "Viagem guardada com sucesso."
+                message: "Viagem guardada com sucesso.",
+                token: result.insertId
             })
         })
     }
