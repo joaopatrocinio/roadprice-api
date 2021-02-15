@@ -22,7 +22,7 @@ router.get("/:id", (req, res) => {
             res.json(result.map(viagem => {
                 viagem.viagem_data = moment(viagem.viagem_data, "YYYY-MM-DD HH:mm:ss").fromNow()
                 return viagem
-            }))
+            })[0])
         } else {
             res.status(404).json({ message: "Viagem não disponível." })
         }
